@@ -1,0 +1,88 @@
+.purchase {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__images {
+
+        max-width: 90%;
+        position: relative;
+
+        @for $i from 1 through 3 {
+            &[data-img="#{$i}"] .purchase__img\--#{$i} {
+                opacity: 1 !important;
+                z-index: 1 !important;
+                position: static;
+            }
+        }
+    }
+
+    &__img {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+        transition: all 0.35s;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__name {
+        color: #9b9b9b;
+        font-size: calc(#{$fluid} * 1.6vw);
+        font-weight: 700;
+        letter-spacing: 0.036em;
+        line-height: 1.73em;
+        text-transform: uppercase;
+        padding-top: 2em;
+        padding-bottom: 0.8em;
+        text-align: center;
+    }
+
+    &__details-item {
+        text-align: center;
+        font-size: calc(#{$fluid} * 1.38vw);
+        letter-spacing: 0.0555em;
+        line-height: 2em;
+        text-transform: uppercase;
+        font-weight: normal;
+    }
+
+    &__button {
+        text-decoration: none;
+        color: white;
+        font-size: calc(#{$fluid} * 1.8vw);
+        padding: 0.6em 0.9em;
+        display: inline-block;
+        margin-top: 1.3em;
+        text-transform: uppercase;
+        background-color: black;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media(min-width: $desktop) {
+        &__images {
+            width: 24vw;
+            height: 11.8vw;
+        }
+
+        &__name {
+            font-size: 1.6vw;
+        }
+
+        &__details-item {
+            font-size: 1.38vw;
+        }
+
+        &__button {
+            font-size: 1.8vw;
+        }
+    }
+}

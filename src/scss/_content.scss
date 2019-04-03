@@ -1,0 +1,15 @@
+.content {
+
+    flex-grow: 1;
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 100%;
+    overflow: hidden;
+
+    &__item {
+        grid-area: 1/1/2/2;
+        z-index: -1;
+        opacity: 0;
+        transition: all 0.35s;
+    }
+}

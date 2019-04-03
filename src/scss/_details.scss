@@ -1,0 +1,41 @@
+.details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__content {
+        width: 90%;
+    }
+
+    &__name {
+        color: #9b9b9b;
+        font-size: calc(#{$fluid} * 2vw);
+        letter-spacing: 0.045em;
+        line-height: 1.166em;
+        text-transform: uppercase;
+        padding-bottom: 1em;
+        text-align: center;
+    }
+
+    &__text {
+        font-size: calc(#{$fluid} * 2vw);
+        letter-spacing: 0.045em;
+        line-height: 1.2em;
+        text-align: center;
+        font-weight: normal;
+    }
+
+    @media(min-width: $desktop) {
+        &__content {
+            width: 67vw;
+        }
+
+        &__name {
+            font-size: 2vw;
+        }
+
+        &__text {
+            font-size: 2vw;
+        }
+    }
+}

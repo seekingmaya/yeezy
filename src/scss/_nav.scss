@@ -1,0 +1,28 @@
+.nav {
+    height: 10vw;
+    padding-left: $padding;
+    padding-right: $padding;
+    display: flex;
+    justify-content: space-between;
+
+    align-items: center;
+
+    &__item {
+        font-size: calc(#{$fluid} * 2vw);
+        font-weight: 700;
+        letter-spacing: 0.093em;
+        text-transform: uppercase;
+        color: #666666;
+        transition: color 0.35s;
+        cursor: pointer;
+        height: 100%;
+        line-height: 10vw;
+    }
+
+    @media(min-width: $desktop) {
+        &__item {
+            font-size: 2vw;
+        }
+
+    }
+}

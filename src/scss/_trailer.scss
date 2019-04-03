@@ -1,0 +1,19 @@
+.trailer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__video {
+        width: 100%;
+        height: 100%;
+    }
+
+    @media(min-width: $desktop) {
+        &__video {
+            width: 65.8vw;
+            height: 37vw;
+        }
+    }
+
+
+}

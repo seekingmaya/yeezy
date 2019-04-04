@@ -1,4 +1,7 @@
-import "../assets/model.glb";
+import "../assets/modelDraco.glb";
+// import "../lib/draco/draco_decoder.js";
+// import "../lib/draco/draco_decoder.wasm";
+// import "../lib/draco/draco_wasm_wrapper";
 
 
 const THREE = window.THREE = require('three');
@@ -14,6 +17,8 @@ require('three/examples/js/pmrem/PMREMGenerator');
 require('three/examples/js/pmrem/PMREMCubeUVPacker');
 
 THREE.DRACOLoader.setDecoderPath('../lib/draco/');
+// THREE.DRACOLoader.setDecoderConfig({ type: 'js' });
+// THREE.DRACOLoader.getDecoderModule();
 
 const DEFAULT_CAMERA = '[default]';
 
@@ -195,7 +200,7 @@ class Viewer {
                 // blobURLs.forEach(URL.revokeObjectURL);
 
                 // See: https://github.com/google/draco/issues/349
-                // THREE.DRACOLoader.releaseDecoderModule();
+                THREE.DRACOLoader.releaseDecoderModule();
 
                 resolve(gltf);
 
@@ -748,7 +753,7 @@ function traverseMaterials(object, callback) {
 let el = document.querySelector(".canvas");
 let viewer = new Viewer(el);
 
-viewer.load("../../assets/model.glb").catch(e => console.log(e)).then(gltf => console.log('Done ', gltf));
+viewer.load("../assets/model.glb").catch(e => console.log(e)).then(gltf => console.log('Done ', gltf));
 
 
 

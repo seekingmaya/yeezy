@@ -13,16 +13,17 @@
         letter-spacing: 0.044em;
         line-height: 1.333333em;
         text-transform: uppercase;
-        padding-bottom: 1em;
+        padding-bottom: 1.6em;
         text-align: center;
     }
 
     &__text {
-        font-size: 4vw;
+        font-size: 3.5vw;
         letter-spacing: 0.044em;
         line-height: 1.333333em;
         text-align: center;
         font-weight: normal;
+        text-transform: uppercase;
     }
 
     @media(min-width: $desktop) {

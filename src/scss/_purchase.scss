@@ -40,9 +40,13 @@
         line-height: 2.6666em;
         font-weight: 700;
         text-transform: uppercase;
-        margin-top: 2em;
+        margin-top: 1.8em;
         padding-bottom: 0.8em;
         text-align: center;
+    }
+
+    &__details {
+        width: 80%;
     }
 
     &__details-item {
@@ -51,19 +55,20 @@
         letter-spacing: 0.05em;
         line-height: 1.53em;
         text-transform: uppercase;
-        font-weight: normal;
+        font-weight: 700;
     }
 
     &__button {
         text-decoration: none;
         color: white;
         font-size: 4vw;
-        padding: 0.6em 0.9em;
+        padding: 0.7em 1em;
         display: inline-block;
-        margin-top: 1.3em;
+        margin-top: 1.6em;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
         background-color: black;
-        border-radius: 15px;
+        border-radius: 20px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -88,6 +93,10 @@
             line-height: 40px;
         }
 
+        &__details {
+            width: 100%;
+        }
+
         &__details-item {
             // font-size: 2.6vw;
             // letter-spacing: 0.05em;
@@ -100,6 +109,7 @@
 
         &__button {
             font-size: 20px;
+            margin-top: 20px;
         }
 
     }

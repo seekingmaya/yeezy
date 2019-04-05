@@ -306,13 +306,12 @@ class Viewer {
         // this.printGraph(this.content);
 
         let render = this.render.bind(this);
-        let scene = this.scene;
 
         idleAnimation = function () {
 
             animationID = requestAnimationFrame(function animation(time) {
 
-                scene.rotation.y += Math.PI / 1440;
+                object.rotation.y += Math.PI / 1440;
                 render();
 
                 animationID = requestAnimationFrame(animation);

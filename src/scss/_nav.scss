@@ -1,7 +1,7 @@
 .nav {
     height: 16.5vw;
-    padding-left: $padding;
-    padding-right: $padding;
+    padding-left: $mobilePadding;
+    padding-right: $mobilePadding;
     display: flex;
     justify-content: space-between;
 
@@ -17,10 +17,16 @@
         cursor: pointer;
         height: 100%;
         line-height: 16.5vw;
+
+        &:hover {
+            color: black;
+        }
     }
 
     @media(min-width: $desktop) {
         height: 114px;
+        padding-left: $padding;
+        padding-right: $padding;
 
         &__item {
             font-size: 25px;

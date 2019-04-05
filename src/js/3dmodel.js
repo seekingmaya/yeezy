@@ -236,6 +236,7 @@ class Viewer {
         object.position.x += (object.position.x - center.x);
         object.position.y += (object.position.y - center.y);
         object.position.z += (object.position.z - center.z);
+        object.rotation.y += Math.PI;
 
         this.controls.maxDistance = size * 10;
         this.defaultCamera.near = size / 100;

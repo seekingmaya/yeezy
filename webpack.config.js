@@ -102,6 +102,16 @@ module.exports = {
           }
         }
       },
+      {
+        test: /\.(mp4)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: '[name].[ext]',
+            outputPath: './'
+          }
+        }
+      },
     ]
   },
   plugins: [
@@ -115,7 +125,8 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: 'src/img', to: 'img' },
-      { from: 'src/assets', to: 'assets' }
+      { from: 'src/assets', to: 'assets' },
+      { from: 'src/video', to: 'video' }
     ]),
     // new WebpackPwaManifest({
     //   name: 'etcetera',

@@ -11,6 +11,8 @@ window.addEventListener("load", function () {
 
   let images = document.querySelectorAll(".purchase__img");
 
+  let video = document.querySelector(".trailer__video");
+
   navs.forEach(nav => {
     nav.addEventListener("click", () => {
       let current = container.dataset.active;
@@ -28,4 +30,16 @@ window.addEventListener("load", function () {
 
     });
   });
+
+  video.src = video.dataset.src;
+
+  video.addEventListener('click', function () {
+    if (video.paused || video.ended) {
+      video.play();
+    }
+    else {
+      video.pause();
+    }
+  })
+
 });

@@ -35,22 +35,22 @@
         }
     }
 
-    &[data-active="trailer"] {
-        background-color: #000;
+    // &[data-active="trailer"] {
+    //     background-color: #000;
 
-        .container__content {
-            grid-area: 2/1/3/2;
-        }
+    //     .container__content {
+    //         grid-area: 2/1/3/2;
+    //     }
 
-        .nav__item {
-            color: white;
-            opacity: 0.3;
+    //     .nav__item {
+    //         color: white;
+    //         opacity: 0.3;
 
-            &[data-nav="trailer"] {
-                opacity: 1;
-            }
-        }
-    }
+    //         &[data-nav="trailer"] {
+    //             opacity: 1;
+    //         }
+    //     }
+    // }
 
     @media(min-width: $desktop) {
         grid-template-rows: 114px 1fr 114px;

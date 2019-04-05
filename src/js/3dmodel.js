@@ -18,6 +18,7 @@ require('three/examples/js/pmrem/PMREMCubeUVPacker');
 
 let animationID;
 let idleAnimation;
+let timerId;
 
 THREE.DRACOLoader.setDecoderPath('../lib/draco/');
 // THREE.DRACOLoader.setDecoderConfig({ type: 'js' });
@@ -137,6 +138,7 @@ class Viewer {
 
     setControlsListener() {
         this.controls.addEventListener("change", () => {
+            restartTimer();
             this.render();
         });
     }
@@ -221,6 +223,8 @@ class Viewer {
      */
     setContent(object, clips) {
 
+        console.dir(object)
+
         this.clear();
 
         object.updateMatrixWorld();
@@ -302,12 +306,13 @@ class Viewer {
         // this.printGraph(this.content);
 
         let render = this.render.bind(this);
+        let scene = this.scene;
 
         idleAnimation = function () {
 
             animationID = requestAnimationFrame(function animation(time) {
 
-                object.rotation.y += Math.PI / 1440;
+                scene.rotation.y += Math.PI / 1440;
                 render();
 
                 animationID = requestAnimationFrame(animation);
@@ -770,6 +775,19 @@ function traverseMaterials(object, callback) {
             : [node.material];
         materials.forEach(callback);
     });
+}
+
+function restartTimer() {
+    cancelAnimationFrame(animationID);
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+        idleAnimation();
+    }, 3000);
+}
+
+export function stopAnimation() {
+    cancelAnimationFrame(animationID);
+    clearTimeout(timerId);
 }
 
 let el = document.querySelector(".canvas");

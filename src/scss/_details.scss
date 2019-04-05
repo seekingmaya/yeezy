@@ -4,23 +4,23 @@
     justify-content: center;
 
     &__content {
-        width: 90%;
+        width: 68.2%;
+
     }
 
     &__name {
-        color: #9b9b9b;
-        font-size: calc(#{$fluid} * 2vw);
-        letter-spacing: 0.045em;
-        line-height: 1.166em;
+        font-size: 4vw;
+        letter-spacing: 0.044em;
+        line-height: 1.333333em;
         text-transform: uppercase;
         padding-bottom: 1em;
         text-align: center;
     }
 
     &__text {
-        font-size: calc(#{$fluid} * 2vw);
-        letter-spacing: 0.045em;
-        line-height: 1.2em;
+        font-size: 4vw;
+        letter-spacing: 0.044em;
+        line-height: 1.333333em;
         text-align: center;
         font-weight: normal;
     }
@@ -31,11 +31,21 @@
         }
 
         &__name {
-            font-size: 2vw;
+            font-size: 23px;
+            letter-spacing: 1.11px;
+            line-height: 35px;
         }
 
         &__text {
-            font-size: 2vw;
+            font-size: 25px;
+            letter-spacing: 1.11px;
+            line-height: 35px;
+        }
+    }
+
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+        &__content {
+            width: 530px;
         }
     }
 }

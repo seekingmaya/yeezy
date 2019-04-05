@@ -16,6 +16,9 @@ require('three/examples/js/loaders/HDRCubeTextureLoader');
 require('three/examples/js/pmrem/PMREMGenerator');
 require('three/examples/js/pmrem/PMREMCubeUVPacker');
 
+let animationID;
+let idleAnimation;
+
 THREE.DRACOLoader.setDecoderPath('../lib/draco/');
 // THREE.DRACOLoader.setDecoderConfig({ type: 'js' });
 // THREE.DRACOLoader.getDecoderModule();
@@ -129,6 +132,7 @@ class Viewer {
         // requestAnimationFrame(this.animate);
         this.setControlsListener();
         window.addEventListener('resize', this.resize.bind(this), false);
+
     }
 
     setControlsListener() {
@@ -136,6 +140,7 @@ class Viewer {
             this.render();
         });
     }
+
 
     animate(time) {
 
@@ -262,7 +267,7 @@ class Viewer {
 
         this.scene.add(this.activeCamera);
 
-        const planeGeometry = new THREE.PlaneGeometry(5, 8);
+        const planeGeometry = new THREE.PlaneGeometry(10, 10);
         planeGeometry.rotateX(- Math.PI / 2);
 
         const planeMaterial = new THREE.ShadowMaterial();
@@ -295,6 +300,22 @@ class Viewer {
         // console.info('[glTF Viewer] THREE.Scene exported as `window.content`.');
         // this.printGraph(this.content);
 
+        let render = this.render.bind(this);
+
+        idleAnimation = function () {
+
+            animationID = requestAnimationFrame(function animation(time) {
+
+                object.rotation.y += Math.PI / 1440;
+                render();
+
+                animationID = requestAnimationFrame(animation);
+
+
+            });
+        }
+
+        setTimeout(idleAnimation, 2000);
     }
 
     printGraph(node) {
@@ -406,15 +427,15 @@ class Viewer {
         light.shadow.mapSize.height = 32;
         light.shadow.camera.near = 0.5;
         light.shadow.camera.far = 10;
-        light.shadow.camera.left = -4;
-        light.shadow.camera.right = 4;
-        light.shadow.camera.bottom = -4;
-        light.shadow.camera.top = 4;
+        light.shadow.camera.left = -6;
+        light.shadow.camera.right = 6;
+        light.shadow.camera.bottom = -6;
+        light.shadow.camera.top = 6;
         light.radius = 0.0039;
         light.bias = 0.0001;
 
-        // var helper = new THREE.CameraHelper(light.shadow.camera);
-        // this.scene.add(helper);
+        var helper = new THREE.CameraHelper(light.shadow.camera);
+        this.scene.add(helper);
 
         //light illuminate from above
 

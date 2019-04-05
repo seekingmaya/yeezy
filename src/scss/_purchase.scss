@@ -12,14 +12,15 @@
 
     &__images {
 
-        max-width: 90%;
+        width: 57.6vw;
+        height: 28.26vw;
         position: relative;
+        cursor: pointer;
 
         @for $i from 1 through 3 {
             &[data-img="#{$i}"] .purchase__img\--#{$i} {
                 opacity: 1 !important;
                 z-index: 1 !important;
-                position: static;
             }
         }
     }
@@ -34,22 +35,21 @@
     }
 
     &__name {
-        color: #9b9b9b;
-        font-size: calc(#{$fluid} * 1.6vw);
+        font-size: 4vw;
+        letter-spacing: 0.044em;
+        line-height: 2.6666em;
         font-weight: 700;
-        letter-spacing: 0.036em;
-        line-height: 1.73em;
         text-transform: uppercase;
-        padding-top: 2em;
+        margin-top: 2em;
         padding-bottom: 0.8em;
         text-align: center;
     }
 
     &__details-item {
         text-align: center;
-        font-size: calc(#{$fluid} * 1.38vw);
-        letter-spacing: 0.0555em;
-        line-height: 2em;
+        font-size: 4vw;
+        letter-spacing: 0.05em;
+        line-height: 1.53em;
         text-transform: uppercase;
         font-weight: normal;
     }
@@ -57,32 +57,71 @@
     &__button {
         text-decoration: none;
         color: white;
-        font-size: calc(#{$fluid} * 1.8vw);
+        font-size: 4vw;
         padding: 0.6em 0.9em;
         display: inline-block;
         margin-top: 1.3em;
         text-transform: uppercase;
         background-color: black;
+        border-radius: 15px;
         margin-left: auto;
         margin-right: auto;
     }
 
     @media(min-width: $desktop) {
         &__images {
-            width: 24vw;
-            height: 11.8vw;
+
+            // width: 0.451vw;
+            // height: 0.221vw;
+
+            width: 347px;
+            height: 170px;
         }
 
         &__name {
-            font-size: 1.6vw;
+            // font-size: 3vw;
+            // letter-spacing: 0.037em;
+            // line-height: 1.739em;
+            margin-top: 40px;
+            font-size: 23px;
+            letter-spacing: 0.85px;
+            line-height: 40px;
         }
 
         &__details-item {
-            font-size: 1.38vw;
+            // font-size: 2.6vw;
+            // letter-spacing: 0.05em;
+            // line-height: 2em;
+
+            font-size: 20px;
+            letter-spacing: 1px;
+            line-height: 40px;
         }
 
         &__button {
-            font-size: 1.8vw;
+            font-size: 20px;
         }
+
     }
+
+    // @media(min-width: $desktop) {
+    //     &__images {
+    //         width: 25.4vw;
+    //         height: 22.13vw;
+    //     }
+
+    //     &__name {
+    //         font-size: 1.6837vw;
+    //         letter-spacing: 3.7;
+    //         line-height: 1.74;
+    //     }
+
+    //     &__details-item {
+    //         font-size: 1.38vw;
+    //     }
+
+    //     &__button {
+    //         font-size: 1.8vw;
+    //     }
+    // }
 }

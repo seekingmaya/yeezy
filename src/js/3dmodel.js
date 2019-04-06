@@ -1,4 +1,7 @@
-import "../assets/model.glb";
+// import "../assets/modelDraco.glb";
+// import "../lib/draco/draco_decoder.js";
+// import "../lib/draco/draco_decoder.wasm";
+// import "../lib/draco/draco_wasm_wrapper";
 
 
 const THREE = window.THREE = require('three');
@@ -13,7 +16,14 @@ require('three/examples/js/loaders/HDRCubeTextureLoader');
 require('three/examples/js/pmrem/PMREMGenerator');
 require('three/examples/js/pmrem/PMREMCubeUVPacker');
 
+let animationID;
+let idleAnimation;
+let timerId;
+let loading = document.querySelector(".loading");
+
 THREE.DRACOLoader.setDecoderPath('../lib/draco/');
+THREE.DRACOLoader.setDecoderConfig({ type: 'js' });
+THREE.DRACOLoader.getDecoderModule();
 
 const DEFAULT_CAMERA = '[default]';
 
@@ -47,10 +57,7 @@ class Viewer {
         // this.gui = null;
 
         this.state = {
-            // environment: options.preset === Preset.ASSET_GENERATOR
-            //     ? 'Footprint Court (HDR)'
-            //     : environments[1].name,
-            // background: false,
+
             playbackSpeed: 1.0,
             actionStates: {},
             camera: DEFAULT_CAMERA,
@@ -74,9 +81,6 @@ class Viewer {
 
         this.scene = new THREE.Scene();
 
-        // const fov = options.preset === Preset.ASSET_GENERATOR
-        //     ? 0.8 * 180 / Math.PI
-        //     : 60;
         const fov = 60;
         this.defaultCamera = new THREE.PerspectiveCamera(fov, el.clientWidth / el.clientHeight, 0.01, 1000);
         this.activeCamera = this.defaultCamera;
@@ -96,12 +100,6 @@ class Viewer {
         this.controls.autoRotateSpeed = -10;
         this.controls.screenSpacePanning = true;
 
-        // this.background = createVignetteBackground({
-        //   aspect: this.defaultCamera.aspect,
-        //   grainScale: IS_IOS ? 0 : 0.001, // mattdesl/three-vignette-background#1
-        //   colors: [this.state.bgColor1, this.state.bgColor2]
-        // });
-
         this.el.appendChild(this.renderer.domElement);
 
         this.cameraCtrl = null;
@@ -114,23 +112,22 @@ class Viewer {
         this.gridHelper = null;
         this.axesHelper = null;
 
-        // this.addGUI();
-        // if (options.kiosk) this.gui.close();
-
         this.animate = this.animate.bind(this);
         this.resize();
         this.render();
 
-        // requestAnimationFrame(this.animate);
         this.setControlsListener();
         window.addEventListener('resize', this.resize.bind(this), false);
+
     }
 
     setControlsListener() {
         this.controls.addEventListener("change", () => {
+            restartTimer();
             this.render();
         });
     }
+
 
     animate(time) {
 
@@ -190,16 +187,22 @@ class Viewer {
 
                 const scene = gltf.scene || gltf.scenes[0];
                 const clips = gltf.animations || [];
-                this.setContent(scene, clips);
 
-                // blobURLs.forEach(URL.revokeObjectURL);
+                this.setContent(scene, clips);
 
                 // See: https://github.com/google/draco/issues/349
                 // THREE.DRACOLoader.releaseDecoderModule();
 
                 resolve(gltf);
 
-            }, undefined, reject);
+            }, function ( xhr ) {
+
+                // loading.innerHTML = `${( Math.round(xhr.loaded / xhr.total * 100 ))} % loaded`
+                // if(xhr.loaded / xhr.total * 100 >= 100) {
+                //     loading.style.display = "none";
+                // }
+        
+            }, reject);
 
         });
 
@@ -210,6 +213,8 @@ class Viewer {
      * @param {Array<THREE.AnimationClip} clips
      */
     setContent(object, clips) {
+
+        console.dir(object)
 
         this.clear();
 
@@ -226,6 +231,9 @@ class Viewer {
         object.position.x += (object.position.x - center.x);
         object.position.y += (object.position.y - center.y);
         object.position.z += (object.position.z - center.z);
+        object.rotation.y += Math.PI;
+        object.castShadow = true;
+        object.receiveShadow = true;
 
         this.controls.maxDistance = size * 10;
         this.defaultCamera.near = size / 100;
@@ -244,10 +252,6 @@ class Viewer {
         this.content = object;
 
         this.setCamera(center);
-        // this.activeCamera.position.copy(center);
-        // this.activeCamera.position.x += size / 2.0;
-        // this.activeCamera.position.y += size / 5.0;
-        // this.activeCamera.position.z += size / 2.0;
         this.activeCamera.lookAt(center);
 
         // this.controls.saveState();
@@ -257,14 +261,15 @@ class Viewer {
 
         this.scene.add(this.activeCamera);
 
-        const planeGeometry = new THREE.PlaneGeometry(5, 8);
+        const planeGeometry = new THREE.PlaneGeometry(10, 10);
         planeGeometry.rotateX(- Math.PI / 2);
 
         const planeMaterial = new THREE.ShadowMaterial();
         planeMaterial.opacity = 0.7;
 
         const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.position.y = this.content.position.y - size * 2.17;
+        plane.position.y = -1.35;
+        // plane.position.z = -1;
         plane.receiveShadow = true;
         this.plane = plane;
         this.scene.add(plane);
@@ -274,22 +279,40 @@ class Viewer {
             if (node.isLight) {
                 this.state.addLights = true;
             }
+            if (node instanceof THREE.Mesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
         });
 
         this.setClips(clips);
 
         this.updateLights(center);
-        // this.updateGUI();
-        // this.updateEnvironment();
+
         this.updateTextureEncoding();
         this.updateDisplay();
         this.activeCamera.updateProjectionMatrix();
         window.content = this.content;
         // this.render();
         this.resize();
-        // console.info('[glTF Viewer] THREE.Scene exported as `window.content`.');
-        // this.printGraph(this.content);
 
+
+        let render = this.render.bind(this);
+
+        idleAnimation = function () {
+
+            animationID = requestAnimationFrame(function animation(time) {
+
+                object.rotation.y += Math.PI / 1440;
+                render();
+
+                animationID = requestAnimationFrame(animation);
+
+
+            });
+        }
+
+        setTimeout(idleAnimation, 2000);
     }
 
     printGraph(node) {
@@ -338,15 +361,9 @@ class Viewer {
                 console.log(this.activeCamera.position);
                 console.log(this.activeCamera);
                 this.activeCamera.castShadow = true;
-                // this.activeCamera.position.x += (this.activeCamera.position.x - center.x);
-                // this.activeCamera.position.y += (this.activeCamera.position.y - center.y);
-                // this.activeCamera.position.z += (this.activeCamera.position.z - center.z);
 
             }
-            if (node instanceof THREE.Mesh) {
-                node.castShadow = true;
-                node.receiveShadow = true;
-            }
+
         });
 
         const { clientHeight, clientWidth } = this.el.parentElement;
@@ -388,9 +405,9 @@ class Viewer {
         // }
 
         var light = new THREE.DirectionalLight(0xffffff, 1, 0.8);
-        light.position.set(this.content.position.x, this.content.position.y - this.size * 1.5, this.content.position.z);
+        light.position.set(0, this.size / 2.8, 0);
         light.castShadow = true;
-        light.target.position.set(0, 0, 1.1);
+        light.target.position.set(0, -1.4, 0);
         this.scene.add(light);
         this.scene.add(light.target);
 
@@ -400,7 +417,7 @@ class Viewer {
         light.shadow.mapSize.width = 32;
         light.shadow.mapSize.height = 32;
         light.shadow.camera.near = 0.5;
-        light.shadow.camera.far = 10;
+        light.shadow.camera.far = 4;
         light.shadow.camera.left = -4;
         light.shadow.camera.right = 4;
         light.shadow.camera.bottom = -4;
@@ -449,31 +466,6 @@ class Viewer {
         this.lights.length = 0;
 
     }
-
-    // updateEnvironment() {
-
-    //     // const environment = environments.filter((entry) => entry.name === this.state.environment)[0];
-
-    //     this.getCubeMapTexture(environment).then(({ envMap, cubeMap }) => {
-
-    //         //   if ((!envMap || !this.state.background) && this.activeCamera === this.defaultCamera) {
-    //         //     this.scene.add(this.background);
-    //         //   } else {
-    //         //     this.scene.remove(this.background);
-    //         //   }
-
-    //         traverseMaterials(this.content, (material) => {
-    //             if (material.isMeshStandardMaterial || material.isGLTFSpecularGlossinessMaterial) {
-    //                 material.envMap = envMap;
-    //                 material.needsUpdate = true;
-    //             }
-    //         });
-
-    //         this.scene.background = this.state.background ? cubeMap : null;
-
-    //     });
-
-    // }
 
     getCubeMapTexture(environment) {
         const { path, format } = environment;
@@ -553,157 +545,6 @@ class Viewer {
         }
     }
 
-    updateBackground() {
-        // this.background.style({colors: [this.state.bgColor1, this.state.bgColor2]});
-    }
-
-    // addGUI() {
-
-    //     const gui = this.gui = new dat.GUI({ autoPlace: false, width: 260, hideable: true });
-
-    //     // Display controls.
-    //     const dispFolder = gui.addFolder('Display');
-    //     const envBackgroundCtrl = dispFolder.add(this.state, 'background');
-    //     envBackgroundCtrl.onChange(() => this.updateEnvironment());
-    //     const wireframeCtrl = dispFolder.add(this.state, 'wireframe');
-    //     wireframeCtrl.onChange(() => this.updateDisplay());
-    //     const skeletonCtrl = dispFolder.add(this.state, 'skeleton');
-    //     skeletonCtrl.onChange(() => this.updateDisplay());
-    //     const gridCtrl = dispFolder.add(this.state, 'grid');
-    //     gridCtrl.onChange(() => this.updateDisplay());
-    //     dispFolder.add(this.controls, 'autoRotate');
-    //     dispFolder.add(this.controls, 'screenSpacePanning');
-    //     const bgColor1Ctrl = dispFolder.addColor(this.state, 'bgColor1');
-    //     const bgColor2Ctrl = dispFolder.addColor(this.state, 'bgColor2');
-    //     bgColor1Ctrl.onChange(() => this.updateBackground());
-    //     bgColor2Ctrl.onChange(() => this.updateBackground());
-
-    //     // Lighting controls.
-    //     const lightFolder = gui.addFolder('Lighting');
-    //     const encodingCtrl = lightFolder.add(this.state, 'textureEncoding', ['sRGB', 'Linear']);
-    //     encodingCtrl.onChange(() => this.updateTextureEncoding());
-    //     lightFolder.add(this.renderer, 'gammaOutput').onChange(() => {
-    //         traverseMaterials(this.content, (material) => {
-    //             material.needsUpdate = true;
-    //         });
-    //     });
-    //     const envMapCtrl = lightFolder.add(this.state, 'environment', environments.map((env) => env.name));
-    //     envMapCtrl.onChange(() => this.updateEnvironment());
-    //     [
-    //         lightFolder.add(this.state, 'exposure', 0, 2),
-    //         lightFolder.add(this.state, 'addLights').listen(),
-    //         lightFolder.add(this.state, 'ambientIntensity', 0, 2),
-    //         lightFolder.addColor(this.state, 'ambientColor'),
-    //         lightFolder.add(this.state, 'directIntensity', 0, 4), // TODO(#116)
-    //         lightFolder.addColor(this.state, 'directColor')
-    //     ].forEach((ctrl) => ctrl.onChange(() => this.updateLights()));
-
-    //     // Animation controls.
-    //     this.animFolder = gui.addFolder('Animation');
-    //     this.animFolder.domElement.style.display = 'none';
-    //     const playbackSpeedCtrl = this.animFolder.add(this.state, 'playbackSpeed', 0, 1);
-    //     playbackSpeedCtrl.onChange((speed) => {
-    //         if (this.mixer) this.mixer.timeScale = speed;
-    //     });
-    //     this.animFolder.add({ playAll: () => this.playAllClips() }, 'playAll');
-
-    //     // Morph target controls.
-    //     this.morphFolder = gui.addFolder('Morph Targets');
-    //     this.morphFolder.domElement.style.display = 'none';
-
-    //     // Camera controls.
-    //     this.cameraFolder = gui.addFolder('Cameras');
-    //     this.cameraFolder.domElement.style.display = 'none';
-
-    //     // Stats.
-    //     const perfFolder = gui.addFolder('Performance');
-    //     const perfLi = document.createElement('li');
-    //     // this.stats.dom.style.position = 'static';
-    //     // perfLi.appendChild(this.stats.dom);
-    //     // perfLi.classList.add('gui-stats');
-    //     perfFolder.__ul.appendChild(perfLi);
-
-    //     const guiWrap = document.createElement('div');
-    //     this.el.appendChild(guiWrap);
-    //     guiWrap.classList.add('gui-wrap');
-    //     guiWrap.appendChild(gui.domElement);
-    //     gui.open();
-
-    // }
-
-    // updateGUI() {
-    //     this.cameraFolder.domElement.style.display = 'none';
-
-    //     this.morphCtrls.forEach((ctrl) => ctrl.remove());
-    //     this.morphCtrls.length = 0;
-    //     this.morphFolder.domElement.style.display = 'none';
-
-    //     this.animCtrls.forEach((ctrl) => ctrl.remove());
-    //     this.animCtrls.length = 0;
-    //     this.animFolder.domElement.style.display = 'none';
-
-    //     const cameraNames = [];
-    //     const morphMeshes = [];
-    //     this.content.traverse((node) => {
-    //         if (node.isMesh && node.morphTargetInfluences) {
-    //             morphMeshes.push(node);
-    //         }
-    //         if (node.isCamera) {
-    //             node.name = node.name || `VIEWER__camera_${cameraNames.length + 1}`;
-    //             cameraNames.push(node.name);
-    //         }
-    //     });
-
-    //     if (cameraNames.length) {
-    //         this.cameraFolder.domElement.style.display = '';
-    //         if (this.cameraCtrl) this.cameraCtrl.remove();
-    //         const cameraOptions = [DEFAULT_CAMERA].concat(cameraNames);
-    //         this.cameraCtrl = this.cameraFolder.add(this.state, 'camera', cameraOptions);
-    //         this.cameraCtrl.onChange((name) => this.setCamera(name));
-    //     }
-
-    //     if (morphMeshes.length) {
-    //         this.morphFolder.domElement.style.display = '';
-    //         morphMeshes.forEach((mesh) => {
-    //             if (mesh.morphTargetInfluences.length) {
-    //                 const nameCtrl = this.morphFolder.add({ name: mesh.name || 'Untitled' }, 'name');
-    //                 this.morphCtrls.push(nameCtrl);
-    //             }
-    //             for (let i = 0; i < mesh.morphTargetInfluences.length; i++) {
-    //                 const ctrl = this.morphFolder.add(mesh.morphTargetInfluences, i, 0, 1, 0.01).listen();
-    //                 Object.keys(mesh.morphTargetDictionary).forEach((key) => {
-    //                     if (key && mesh.morphTargetDictionary[key] === i) ctrl.name(key);
-    //                 });
-    //                 this.morphCtrls.push(ctrl);
-    //             }
-    //         });
-    //     }
-
-    //     if (this.clips.length) {
-    //         this.animFolder.domElement.style.display = '';
-    //         const actionStates = this.state.actionStates = {};
-    //         this.clips.forEach((clip, clipIndex) => {
-    //             // Autoplay the first clip.
-    //             let action;
-    //             if (clipIndex === 0) {
-    //                 actionStates[clip.name] = true;
-    //                 action = this.mixer.clipAction(clip);
-    //                 action.play();
-    //             } else {
-    //                 actionStates[clip.name] = false;
-    //             }
-
-    //             // Play other clips when enabled.
-    //             const ctrl = this.animFolder.add(actionStates, clip.name).listen();
-    //             ctrl.onChange((playAnimation) => {
-    //                 action = action || this.mixer.clipAction(clip);
-    //                 action.setEffectiveTimeScale(1);
-    //                 playAnimation ? action.play() : action.stop();
-    //             });
-    //             this.animCtrls.push(ctrl);
-    //         });
-    //     }
-    // }
 
     clear() {
 
@@ -745,10 +586,25 @@ function traverseMaterials(object, callback) {
     });
 }
 
+function restartTimer() {
+    cancelAnimationFrame(animationID);
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+        idleAnimation();
+    }, 3000);
+}
+
+export function stopAnimation() {
+    cancelAnimationFrame(animationID);
+    clearTimeout(timerId);
+}
+
+export { idleAnimation };
+
 let el = document.querySelector(".canvas");
 let viewer = new Viewer(el);
 
-viewer.load("../../assets/model.glb").catch(e => console.log(e)).then(gltf => console.log('Done ', gltf));
+viewer.load("../assets/modelDraco.gltf").catch(e => console.log(e)).then(gltf => console.log('Done ', gltf));
 
 
 

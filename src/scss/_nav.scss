@@ -1,27 +1,37 @@
 .nav {
-    height: 10vw;
-    padding-left: $padding;
-    padding-right: $padding;
+    height: 16.5vw;
+    padding-left: $mobilePadding;
+    padding-right: $mobilePadding;
     display: flex;
     justify-content: space-between;
 
     align-items: center;
 
     &__item {
-        font-size: calc(#{$fluid} * 2vw);
+        color: #676666;
+        font-size: 4.8vw;
         font-weight: 700;
         letter-spacing: 0.093em;
         text-transform: uppercase;
-        color: #666666;
         transition: color 0.35s;
         cursor: pointer;
         height: 100%;
-        line-height: 10vw;
+        line-height: 16.5vw;
+
+        &:hover {
+            color: black;
+        }
     }
 
     @media(min-width: $desktop) {
+        height: 114px;
+        padding-left: $padding;
+        padding-right: $padding;
+
         &__item {
-            font-size: 2vw;
+            font-size: 25px;
+            letter-spacing: 0.0936em;
+            line-height: 114px;
         }
 
     }

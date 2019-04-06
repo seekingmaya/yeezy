@@ -5,7 +5,7 @@
     transition: background-color 0.34s;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 10vw 1fr 10vw;
+    grid-template-rows: 16.5vw 1fr 16.5vw;
 
     &__nav-top {
         grid-area: 1/1/2/2;
@@ -35,20 +35,37 @@
         }
     }
 
-    &[data-active="trailer"] {
-        background-color: #000;
+    // &[data-active="trailer"] {
+    //     background-color: #000;
 
-        .container__content {
-            grid-area: 2/1/3/2;
+    //     .container__content {
+    //         grid-area: 2/1/3/2;
+    //     }
+
+    //     .nav__item {
+    //         color: white;
+    //         opacity: 0.3;
+
+    //         &[data-nav="trailer"] {
+    //             opacity: 1;
+    //         }
+    //     }
+    // }
+
+    @media(min-width: $desktop) {
+        grid-template-rows: 114px 1fr 114px;
+    }
+
+    @media only screen and (max-width: 767px) and (orientation: landscape) {
+
+        .yeezy {
+            z-index: 100 !important;
+            opacity: 1;
         }
 
-        .nav__item {
-            color: white;
-            opacity: 0.3;
-
-            &[data-nav="trailer"] {
-                opacity: 1;
-            }
+        .nav {
+            display: none;
         }
+
     }
 }

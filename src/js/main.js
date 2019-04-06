@@ -1,6 +1,7 @@
 import "../scss/main.scss";
 import "./vh-fix";
 import "./3dmodel";
+import * as model from "./3dmodel";
 
 window.addEventListener("load", function () {
   let container = document.querySelector(".container");
@@ -13,12 +14,36 @@ window.addEventListener("load", function () {
 
   let video = document.querySelector(".trailer__video");
 
+  let mobileLandscape = window.matchMedia("(max-width: 767px) and (orientation: landscape)");
+  let mobilePortrait = window.matchMedia("(max-width: 599px) and (orientation: portrait)");
+
+
+  mobileLandscape.addListener(landscapeHandler);
+  mobilePortrait.addListener(portraitHandler);
+
+  function landscapeHandler(evt) {
+    if (evt.matches) {
+      model.stopAnimation();
+      model.idleAnimation();
+    }
+  }
+
+  function portraitHandler(evt) {
+    let current = container.dataset.active;
+    if (evt.matches && current != "yeezy") {
+      model.stopAnimation();
+    }
+  }
+
+
   navs.forEach(nav => {
     nav.addEventListener("click", () => {
       let current = container.dataset.active;
 
       if (nav.dataset.nav != current) {
+        setNavigation(nav.dataset.nav, current);
         container.dataset.active = nav.dataset.nav;
+
       }
     });
   });
@@ -43,3 +68,14 @@ window.addEventListener("load", function () {
   })
 
 });
+
+
+function setNavigation(nav, current) {
+  if (nav != "yeezy") {
+    model.stopAnimation();
+  }
+  else {
+    model.stopAnimation();
+    model.idleAnimation();
+  }
+}

@@ -56,10 +56,7 @@ class Viewer {
         // this.gui = null;
 
         this.state = {
-            // environment: options.preset === Preset.ASSET_GENERATOR
-            //     ? 'Footprint Court (HDR)'
-            //     : environments[1].name,
-            // background: false,
+
             playbackSpeed: 1.0,
             actionStates: {},
             camera: DEFAULT_CAMERA,
@@ -249,10 +246,6 @@ class Viewer {
         this.content = object;
 
         this.setCamera(center);
-        // this.activeCamera.position.copy(center);
-        // this.activeCamera.position.x += size / 2.0;
-        // this.activeCamera.position.y += size / 5.0;
-        // this.activeCamera.position.z += size / 2.0;
         this.activeCamera.lookAt(center);
 
         // this.controls.saveState();
@@ -289,8 +282,7 @@ class Viewer {
         this.setClips(clips);
 
         this.updateLights(center);
-        // this.updateGUI();
-        // this.updateEnvironment();
+
         this.updateTextureEncoding();
         this.updateDisplay();
         this.activeCamera.updateProjectionMatrix();
@@ -363,9 +355,6 @@ class Viewer {
                 console.log(this.activeCamera.position);
                 console.log(this.activeCamera);
                 this.activeCamera.castShadow = true;
-                // this.activeCamera.position.x += (this.activeCamera.position.x - center.x);
-                // this.activeCamera.position.y += (this.activeCamera.position.y - center.y);
-                // this.activeCamera.position.z += (this.activeCamera.position.z - center.z);
 
             }
 
@@ -410,9 +399,9 @@ class Viewer {
         // }
 
         var light = new THREE.DirectionalLight(0xffffff, 1, 0.8);
-        light.position.set(0, this.size / 2.0, 0);
+        light.position.set(0, this.size / 2.8, 0);
         light.castShadow = true;
-        light.target.position.set(0, 0, 1.1);
+        light.target.position.set(0, -1.4, 0);
         this.scene.add(light);
         this.scene.add(light.target);
 
@@ -422,11 +411,11 @@ class Viewer {
         light.shadow.mapSize.width = 32;
         light.shadow.mapSize.height = 32;
         light.shadow.camera.near = 0.5;
-        light.shadow.camera.far = 10;
-        light.shadow.camera.left = -6;
-        light.shadow.camera.right = 6;
-        light.shadow.camera.bottom = -6;
-        light.shadow.camera.top = 6;
+        light.shadow.camera.far = 4;
+        light.shadow.camera.left = -4;
+        light.shadow.camera.right = 4;
+        light.shadow.camera.bottom = -4;
+        light.shadow.camera.top = 4;
         light.radius = 0.0039;
         light.bias = 0.0001;
 

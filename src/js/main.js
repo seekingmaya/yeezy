@@ -78,4 +78,7 @@ function setNavigation(nav, current) {
     model.stopAnimation();
     model.idleAnimation();
   }
+  if (current == "trailer" && (!video.paused || !video.ended)) {
+    video.pause();
+  }
 }

@@ -76,11 +76,10 @@
     @media(min-width: $desktop) {
         &__images {
 
-            // width: 0.451vw;
-            // height: 0.221vw;
-
-            width: 347px;
-            height: 170px;
+            min-width: 347px;
+            width: 25.4vw;
+            min-height: 170px;
+            height: 12.44vw;
         }
 
         &__name {
@@ -98,9 +97,6 @@
         }
 
         &__details-item {
-            // font-size: 2.6vw;
-            // letter-spacing: 0.05em;
-            // line-height: 2em;
 
             font-size: 20px;
             letter-spacing: 1px;
@@ -114,24 +110,4 @@
 
     }
 
-    // @media(min-width: $desktop) {
-    //     &__images {
-    //         width: 25.4vw;
-    //         height: 22.13vw;
-    //     }
-
-    //     &__name {
-    //         font-size: 1.6837vw;
-    //         letter-spacing: 3.7;
-    //         line-height: 1.74;
-    //     }
-
-    //     &__details-item {
-    //         font-size: 1.38vw;
-    //     }
-
-    //     &__button {
-    //         font-size: 1.8vw;
-    //     }
-    // }
 }

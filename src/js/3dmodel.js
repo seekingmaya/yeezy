@@ -19,6 +19,7 @@ require('three/examples/js/pmrem/PMREMCubeUVPacker');
 let animationID;
 let idleAnimation;
 let timerId;
+let loading = document.querySelector(".loading");
 
 THREE.DRACOLoader.setDecoderPath('../lib/draco/');
 THREE.DRACOLoader.setDecoderConfig({ type: 'js' });
@@ -189,14 +190,19 @@ class Viewer {
 
                 this.setContent(scene, clips);
 
-                // blobURLs.forEach(URL.revokeObjectURL);
-
                 // See: https://github.com/google/draco/issues/349
                 // THREE.DRACOLoader.releaseDecoderModule();
 
                 resolve(gltf);
 
-            }, undefined, reject);
+            }, function ( xhr ) {
+
+                // loading.innerHTML = `${( Math.round(xhr.loaded / xhr.total * 100 ))} % loaded`
+                // if(xhr.loaded / xhr.total * 100 >= 100) {
+                //     loading.style.display = "none";
+                // }
+        
+            }, reject);
 
         });
 
@@ -419,8 +425,8 @@ class Viewer {
         light.radius = 0.0039;
         light.bias = 0.0001;
 
-        var helper = new THREE.CameraHelper(light.shadow.camera);
-        this.scene.add(helper);
+        // var helper = new THREE.CameraHelper(light.shadow.camera);
+        // this.scene.add(helper);
 
         //light illuminate from above
 

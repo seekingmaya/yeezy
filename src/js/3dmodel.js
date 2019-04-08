@@ -235,28 +235,10 @@ class Viewer {
 
         this.scene.add(this.activeCamera);
 
-        const planeGeometry = new THREE.PlaneGeometry(10, 10);
-        planeGeometry.rotateX(- Math.PI / 2);
-
-        const planeMaterial = new THREE.ShadowMaterial();
-        planeMaterial.opacity = 0.7;
-
-        const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.position.y = -1.35;
-        // plane.position.z = -1;
-        plane.receiveShadow = true;
-        this.plane = plane;
-        this.scene.add(plane);
-
         this.state.addLights = true;
         this.content.traverse((node) => {
             if (node.isLight) {
                 this.state.addLights = true;
-            }
-            if (node instanceof THREE.Mesh) {
-                node.castShadow = true;
-                node.flatShading = true;
-                console.log(node.material);
             }
         });
 
@@ -289,7 +271,7 @@ class Viewer {
             });
         }
 
-        setTimeout(idleAnimation, 2000);
+        idleAnimation();
     }
 
     printGraph(node) {
@@ -382,26 +364,26 @@ class Viewer {
         //     lights[1].color.setHex(state.directColor);
         // }
 
-        var light = new THREE.DirectionalLight(0xffffff, 1, 0.4);
-        light.position.set(0, this.size / 2, 0);
-        light.castShadow = true;
-        light.target.position.set(0, -1.4, 0);
-        this.scene.add(light);
-        this.scene.add(light.target);
-        this.light = light;
+        // var light = new THREE.DirectionalLight(0xffffff, 1, 0.4);
+        // light.position.set(0, this.size / 2, 0);
+        // light.castShadow = true;
+        // light.target.position.set(0, -1.4, 0);
+        // this.scene.add(light);
+        // this.scene.add(light.target);
+        // this.light = light;
 
 
 
-        light.shadow.mapSize.width = 1024;
-        light.shadow.mapSize.height = 1024;
-        light.shadow.camera.near = 0.5;
-        light.shadow.camera.far = 5;
-        light.shadow.camera.left = -4;
-        light.shadow.camera.right = 4;
-        light.shadow.camera.bottom = -4;
-        light.shadow.camera.top = 4;
-        light.radius = 0.0039;
-        light.bias = 0.0001;
+        // light.shadow.mapSize.width = 1024;
+        // light.shadow.mapSize.height = 1024;
+        // light.shadow.camera.near = 0.5;
+        // light.shadow.camera.far = 5;
+        // light.shadow.camera.left = -4;
+        // light.shadow.camera.right = 4;
+        // light.shadow.camera.bottom = -4;
+        // light.shadow.camera.top = 4;
+        // light.radius = 0.0039;
+        // light.bias = 0.0001;
 
         // var helper = new THREE.CameraHelper(light.shadow.camera);
         // this.scene.add(helper);

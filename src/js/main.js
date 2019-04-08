@@ -67,18 +67,23 @@ window.addEventListener("load", function () {
     }
   })
 
+  function setNavigation(nav, current) {
+    if (nav != "yeezy") {
+      model.stopAnimation();
+    }
+    else {
+      model.stopAnimation();
+      model.idleAnimation();
+    }
+    if (current == "trailer" && (!video.paused || !video.ended)) {
+      video.pause();
+    }
+    else if (nav == "trailer") {
+      video.play();
+    }
+  }
+
 });
 
 
-function setNavigation(nav, current) {
-  if (nav != "yeezy") {
-    model.stopAnimation();
-  }
-  else {
-    model.stopAnimation();
-    model.idleAnimation();
-  }
-  if (current == "trailer" && (!video.paused || !video.ended)) {
-    video.pause();
-  }
-}
+

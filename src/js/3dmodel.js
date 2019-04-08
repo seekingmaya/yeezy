@@ -1,14 +1,8 @@
-// import "../assets/modelDraco.glb";
-// import "../lib/draco/draco_decoder.js";
-// import "../lib/draco/draco_decoder.wasm";
-// import "../lib/draco/draco_wasm_wrapper";
-
-
 const THREE = window.THREE = require('three');
 
 
 require('three/examples/js/loaders/GLTFLoader');
-require('three/examples/js/loaders/DRACOLoader');
+// require('three/examples/js/loaders/DRACOLoader');
 require('three/examples/js/loaders/DDSLoader');
 require('three/examples/js/controls/OrbitControls');
 require('three/examples/js/loaders/RGBELoader');
@@ -16,14 +10,15 @@ require('three/examples/js/loaders/HDRCubeTextureLoader');
 require('three/examples/js/pmrem/PMREMGenerator');
 require('three/examples/js/pmrem/PMREMCubeUVPacker');
 
+
 let animationID;
 let idleAnimation;
 let timerId;
 let loading = document.querySelector(".loading");
 
-THREE.DRACOLoader.setDecoderPath('../lib/draco/');
-THREE.DRACOLoader.setDecoderConfig({ type: 'js' });
-THREE.DRACOLoader.getDecoderModule();
+// THREE.DRACOLoader.setDecoderPath('../lib/draco/');
+// THREE.DRACOLoader.setDecoderConfig({ type: 'js' });
+// THREE.DRACOLoader.getDecoderModule();
 
 const DEFAULT_CAMERA = '[default]';
 
@@ -83,6 +78,7 @@ class Viewer {
 
         const fov = 60;
         this.defaultCamera = new THREE.PerspectiveCamera(fov, el.clientWidth / el.clientHeight, 0.01, 1000);
+
         this.activeCamera = this.defaultCamera;
 
         this.renderer = window.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -98,9 +94,7 @@ class Viewer {
         this.controls = new THREE.OrbitControls(this.activeCamera, this.renderer.domElement);
         this.controls.autoRotate = false;
         this.controls.autoRotateSpeed = -10;
-        this.controls.screenSpacePanning = true;
-
-        this.el.appendChild(this.renderer.domElement);
+        this.controls.screenSpacePanning = true
 
         this.cameraCtrl = null;
         this.cameraFolder = null;
@@ -114,7 +108,7 @@ class Viewer {
 
         this.animate = this.animate.bind(this);
         this.resize();
-        this.render();
+        // this.render();
 
         this.setControlsListener();
         window.addEventListener('resize', this.resize.bind(this), false);
@@ -180,8 +174,7 @@ class Viewer {
 
             const loader = new THREE.GLTFLoader();
             loader.setCrossOrigin('anonymous');
-            loader.setDRACOLoader(new THREE.DRACOLoader());
-            const blobURLs = [];
+            // loader.setDRACOLoader(new THREE.DRACOLoader());
 
             loader.load(url, (gltf) => {
 
@@ -195,13 +188,13 @@ class Viewer {
 
                 resolve(gltf);
 
-            }, function ( xhr ) {
+            }, function (xhr) {
 
                 // loading.innerHTML = `${( Math.round(xhr.loaded / xhr.total * 100 ))} % loaded`
                 // if(xhr.loaded / xhr.total * 100 >= 100) {
                 //     loading.style.display = "none";
                 // }
-        
+
             }, reject);
 
         });
@@ -232,8 +225,7 @@ class Viewer {
         object.position.y += (object.position.y - center.y);
         object.position.z += (object.position.z - center.z);
         object.rotation.y += Math.PI;
-        object.castShadow = true;
-        object.receiveShadow = true;
+
 
         this.controls.maxDistance = size * 10;
         this.defaultCamera.near = size / 100;
@@ -256,8 +248,10 @@ class Viewer {
 
         // this.controls.saveState();
         this.controls.object = this.activeCamera;
+        this.controls.maxZoom = 7;
         this.controls.update();
-        this.scene.add(object);
+
+        this.scene.add(this.content);
 
         this.scene.add(this.activeCamera);
 
@@ -281,7 +275,8 @@ class Viewer {
             }
             if (node instanceof THREE.Mesh) {
                 node.castShadow = true;
-                node.receiveShadow = true;
+                node.flatShading = true;
+                console.log(node.material);
             }
         });
 
@@ -293,7 +288,7 @@ class Viewer {
         this.updateDisplay();
         this.activeCamera.updateProjectionMatrix();
         window.content = this.content;
-        // this.render();
+        this.el.appendChild(this.renderer.domElement);
         this.resize();
 
 
@@ -301,9 +296,11 @@ class Viewer {
 
         idleAnimation = function () {
 
+
             animationID = requestAnimationFrame(function animation(time) {
 
                 object.rotation.y += Math.PI / 1440;
+
                 render();
 
                 animationID = requestAnimationFrame(animation);
@@ -389,6 +386,7 @@ class Viewer {
         // const state = this.state;
         // const lights = this.lights;
 
+
         // if (state.addLights && !lights.length) {
         //     this.addLights();
         // } else if (!state.addLights && lights.length) {
@@ -404,20 +402,20 @@ class Viewer {
         //     lights[1].color.setHex(state.directColor);
         // }
 
-        var light = new THREE.DirectionalLight(0xffffff, 1, 0.8);
-        light.position.set(0, this.size / 2.8, 0);
+        var light = new THREE.DirectionalLight(0xffffff, 1, 0.4);
+        light.position.set(0, this.size / 2, 0);
         light.castShadow = true;
         light.target.position.set(0, -1.4, 0);
         this.scene.add(light);
         this.scene.add(light.target);
+        this.light = light;
 
 
 
-
-        light.shadow.mapSize.width = 32;
-        light.shadow.mapSize.height = 32;
+        light.shadow.mapSize.width = 1024;
+        light.shadow.mapSize.height = 1024;
         light.shadow.camera.near = 0.5;
-        light.shadow.camera.far = 4;
+        light.shadow.camera.far = 5;
         light.shadow.camera.left = -4;
         light.shadow.camera.right = 4;
         light.shadow.camera.bottom = -4;
@@ -428,11 +426,6 @@ class Viewer {
         // var helper = new THREE.CameraHelper(light.shadow.camera);
         // this.scene.add(helper);
 
-        //light illuminate from above
-
-        // var dlight = new THREE.DirectionalLight(0xffffff, 0.7);
-        // dlight.position.set(20, 194, 0);
-        // this.scene.add(dlight);
     }
 
     addLights() {
@@ -467,48 +460,6 @@ class Viewer {
 
     }
 
-    getCubeMapTexture(environment) {
-        const { path, format } = environment;
-
-        // no envmap
-        if (!path) return Promise.resolve({ envMap: null, cubeMap: null });
-
-        const cubeMapURLs = [
-            path + 'posx' + format, path + 'negx' + format,
-            path + 'posy' + format, path + 'negy' + format,
-            path + 'posz' + format, path + 'negz' + format
-        ];
-
-        // hdr
-        if (format === '.hdr') {
-
-            return new Promise((resolve) => {
-
-                new THREE.HDRCubeTextureLoader().load(THREE.UnsignedByteType, cubeMapURLs, (hdrCubeMap) => {
-
-                    var pmremGenerator = new THREE.PMREMGenerator(hdrCubeMap);
-                    pmremGenerator.update(this.renderer);
-
-                    var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
-                    pmremCubeUVPacker.update(this.renderer);
-
-                    resolve({
-                        envMap: pmremCubeUVPacker.CubeUVRenderTarget.texture,
-                        cubeMap: hdrCubeMap
-                    });
-
-                });
-
-            });
-
-        }
-
-        // standard
-        const envMap = new THREE.CubeTextureLoader().load(cubeMapURLs);
-        envMap.format = THREE.RGBFormat;
-        return Promise.resolve({ envMap, cubeMap: envMap });
-
-    }
 
     updateDisplay() {
         if (this.skeletonHelpers.length) {
@@ -604,7 +555,7 @@ export { idleAnimation };
 let el = document.querySelector(".canvas");
 let viewer = new Viewer(el);
 
-viewer.load("../assets/modelDraco.gltf").catch(e => console.log(e)).then(gltf => console.log('Done ', gltf));
+viewer.load("../assets/model.glb").catch(e => console.log(e)).then(gltf => console.log('Done ', gltf));
 
 
 

@@ -126,8 +126,7 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'src/img', to: 'img' },
       { from: 'src/assets', to: 'assets' },
-      { from: 'src/video', to: 'video' },
-      { from: 'lib', to: 'lib' }
+      { from: 'src/video', to: 'video' }
     ]),
     // new WebpackPwaManifest({
     //   name: 'etcetera',

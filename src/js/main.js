@@ -78,7 +78,8 @@ window.addEventListener("load", function () {
     if (current == "trailer" && (!video.paused || !video.ended)) {
       video.pause();
     }
-    else if (nav == "trailer") {
+    else if (nav == "trailer" && current != nav) {
+      video.currentTime = 0;
       video.play();
     }
   }

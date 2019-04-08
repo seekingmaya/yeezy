@@ -2,7 +2,6 @@ const THREE = window.THREE = require('three');
 
 
 require('three/examples/js/loaders/GLTFLoader');
-// require('three/examples/js/loaders/DRACOLoader');
 require('three/examples/js/loaders/DDSLoader');
 require('three/examples/js/controls/OrbitControls');
 require('three/examples/js/loaders/RGBELoader');
@@ -14,15 +13,9 @@ require('three/examples/js/pmrem/PMREMCubeUVPacker');
 let animationID;
 let idleAnimation;
 let timerId;
-let loading = document.querySelector(".loading");
 
-// THREE.DRACOLoader.setDecoderPath('../lib/draco/');
-// THREE.DRACOLoader.setDecoderConfig({ type: 'js' });
-// THREE.DRACOLoader.getDecoderModule();
 
 const DEFAULT_CAMERA = '[default]';
-
-const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 // glTF texture types. `envMap` is deliberately omitted, as it's used internally
 // by the loader but not part of the glTF format.
@@ -37,7 +30,6 @@ const MAP_NAMES = [
     'specularMap',
 ];
 
-// const Preset = { ASSET_GENERATOR: 'assetgenerator' };
 
 class Viewer {
 
@@ -108,7 +100,6 @@ class Viewer {
 
         this.animate = this.animate.bind(this);
         this.resize();
-        // this.render();
 
         this.setControlsListener();
         window.addEventListener('resize', this.resize.bind(this), false);
@@ -174,7 +165,6 @@ class Viewer {
 
             const loader = new THREE.GLTFLoader();
             loader.setCrossOrigin('anonymous');
-            // loader.setDRACOLoader(new THREE.DRACOLoader());
 
             loader.load(url, (gltf) => {
 
@@ -183,19 +173,9 @@ class Viewer {
 
                 this.setContent(scene, clips);
 
-                // See: https://github.com/google/draco/issues/349
-                // THREE.DRACOLoader.releaseDecoderModule();
-
                 resolve(gltf);
 
-            }, function (xhr) {
-
-                // loading.innerHTML = `${( Math.round(xhr.loaded / xhr.total * 100 ))} % loaded`
-                // if(xhr.loaded / xhr.total * 100 >= 100) {
-                //     loading.style.display = "none";
-                // }
-
-            }, reject);
+            }, undefined, reject);
 
         });
 

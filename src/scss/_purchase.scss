@@ -12,10 +12,12 @@
 
     &__images {
 
-        width: 57.6vw;
+        width: auto;
         height: 28.26vw;
         position: relative;
         cursor: pointer;
+        width: 100%;
+
 
         @for $i from 1 through 3 {
             &[data-img="#{$i}"] .purchase__img\--#{$i} {
@@ -26,11 +28,13 @@
     }
 
     &__img {
+        left: 50%;
+        transform: translateX(-50%);
         position: absolute;
         opacity: 0;
         z-index: -1;
         transition: all 0.35s;
-        width: 100%;
+        width: auto;
         height: 100%;
     }
 
@@ -76,8 +80,6 @@
     @media(min-width: $desktop) {
         &__images {
 
-            min-width: 347px;
-            width: 25.4vw;
             min-height: 170px;
             height: 12.44vw;
         }

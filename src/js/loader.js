@@ -48,7 +48,7 @@ window.addEventListener('load', function () {
         context.stroke();
         context.closePath();
 
-        text = 'Loading', m = context.measureText(text);
+        text = 'LOADING', m = context.measureText(text);
         context.fillText(text + qdots[Math.floor(d / 180)], (x - (m.width / 2)), y);
 
         loaderAnimation = requestAnimationFrame(test);

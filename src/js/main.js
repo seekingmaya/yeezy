@@ -8,9 +8,9 @@ window.addEventListener("load", function () {
 
   let navs = document.querySelectorAll(".nav__item");
 
-  let imgWrapper = document.querySelector(".purchase__images");
+  let imgWrapper = document.querySelector(".gallery__images");
 
-  let images = document.querySelectorAll(".purchase__img");
+  let images = document.querySelectorAll(".gallery__img");
 
   let video = document.querySelector(".trailer__video");
 

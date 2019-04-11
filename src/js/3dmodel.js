@@ -13,6 +13,8 @@ require('three/examples/js/pmrem/PMREMCubeUVPacker');
 let animationID;
 let idleAnimation;
 let timerId;
+let progress = document.querySelector(".loading__progress");
+let percent = document.querySelector(".loading__percent");
 
 
 const DEFAULT_CAMERA = '[default]';
@@ -88,8 +90,6 @@ class Viewer {
         this.controls.autoRotateSpeed = -10;
         this.controls.screenSpacePanning = true
 
-        this.cameraCtrl = null;
-        this.cameraFolder = null;
         this.animFolder = null;
         this.animCtrls = [];
         this.morphFolder = null;
@@ -175,7 +175,16 @@ class Viewer {
 
                 resolve(gltf);
 
-            }, undefined, reject);
+            },
+                function (xhr) {
+                    let number = Math.round(xhr.loaded / xhr.total * 100);
+
+                    progress.style.width = `${number}%`;
+
+                    percent.innerHTML = `${number} %`
+
+                }
+                , reject);
 
         });
 
@@ -198,9 +207,7 @@ class Viewer {
 
         this.size = size;
 
-        // this.controls.reset();
-        console.log(object.position.x, "object.position.x", object.position.y, object.position.z)
-        console.log(object.position.x - center.x, "(object.position.x - center.x)", object.position.y - center.y, object.position.z - center.z)
+
         object.position.x += (object.position.x - center.x);
         object.position.y += (object.position.y - center.y);
         object.position.z += (object.position.z - center.z);
@@ -261,7 +268,7 @@ class Viewer {
 
             animationID = requestAnimationFrame(function animation(time) {
 
-                object.rotation.y += Math.PI / 1440;
+                object.rotation.y += Math.PI / 5000;
 
                 render();
 
@@ -387,38 +394,6 @@ class Viewer {
 
         // var helper = new THREE.CameraHelper(light.shadow.camera);
         // this.scene.add(helper);
-
-    }
-
-    addLights() {
-        const state = this.state;
-
-        // if (this.options.preset === Preset.ASSET_GENERATOR) {
-        //     const hemiLight = new THREE.HemisphereLight();
-        //     hemiLight.name = 'hemi_light';
-        //     this.scene.add(hemiLight);
-        //     this.lights.push(hemiLight);
-        //     return;
-        // }
-
-        // const light1 = new THREE.AmbientLight(state.ambientColor, state.ambientIntensity);
-        // light1.name = 'ambient_light';
-        // this.activeCamera.add(light1);
-
-        // const light2 = new THREE.DirectionalLight(state.directColor, state.directIntensity);
-        // light2.position.set(0.5, 0, 0.866); // ~60º
-        // light2.name = 'main_light';
-        // this.activeCamera.add(light2);
-
-        // this.lights.push(light1, light2);
-
-
-    }
-
-    removeLights() {
-
-        this.lights.forEach((light) => light.parent.remove(light));
-        this.lights.length = 0;
 
     }
 

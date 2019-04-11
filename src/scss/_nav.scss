@@ -24,15 +24,21 @@
     }
 
     @media(min-width: $desktop) {
-        height: 114px;
+        height: 102px;
         padding-left: $padding;
         padding-right: $padding;
 
         &__item {
-            font-size: 25px;
-            letter-spacing: 0.0936em;
+            font-size: 21px;
+            letter-spacing: 1.97px;
             line-height: 114px;
         }
 
+    }
+
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+        height: 108px;
+        padding-left: 48px;
+        padding-right: 48px;
     }
 }

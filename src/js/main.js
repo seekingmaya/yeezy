@@ -1,5 +1,6 @@
 import "../scss/main.scss";
 import "./vh-fix";
+import "./loader";
 import "./3dmodel";
 import * as model from "./3dmodel";
 

@@ -1,3 +1,5 @@
+import { loaderAnimation, hideLoader } from "./loader";
+
 const THREE = window.THREE = require('three');
 
 
@@ -13,8 +15,7 @@ require('three/examples/js/pmrem/PMREMCubeUVPacker');
 let animationID;
 let idleAnimation;
 let timerId;
-let progress = document.querySelector(".loading__progress");
-let percent = document.querySelector(".loading__percent");
+
 
 
 const DEFAULT_CAMERA = '[default]';
@@ -163,14 +164,12 @@ class Viewer {
         return new Promise((resolve, reject) => {
             let manager = new THREE.LoadingManager();
 
-            manager.onProgress = function (item, loaded, total) {
-                let number = Math.round(loaded / total * 100);
+            manager.onLoad = function () {
 
-                progress.style.width = `${number}%`;
+                cancelAnimationFrame(loaderAnimation);
+                hideLoader();
 
-                percent.innerHTML = `${number} %`
-
-            }
+            };
 
             const loader = new THREE.GLTFLoader(manager);
             loader.setCrossOrigin('anonymous');

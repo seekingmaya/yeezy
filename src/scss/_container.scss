@@ -22,7 +22,7 @@
     }
 
     @each $el in yeezy,
-    purchase,
+    gallery,
     trailer,
     details {
         &[data-active="#{$el}"] [data-nav="#{$el}"] {
@@ -53,10 +53,12 @@
     // }
 
     @media(min-width: $desktop) {
-        grid-template-rows: 114px 1fr 114px;
+        grid-template-rows: 102px 1fr 102px;
     }
 
     @media only screen and (max-width: 767px) and (orientation: landscape) {
+
+        grid-template-rows: 108px 1fr 108px;
 
         .yeezy {
             z-index: 100 !important;

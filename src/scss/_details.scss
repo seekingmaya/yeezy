@@ -3,51 +3,61 @@
     align-items: center;
     justify-content: center;
 
-    &__content {
-        width: 68.2%;
-        flex-grow: 0;
-
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
-    &__name {
+    &__item {
+        text-align: center;
         font-size: 4vw;
-        letter-spacing: 0.044em;
-        line-height: 1.333333em;
+        letter-spacing: 0.07em;
+        line-height: 2.233em;
         text-transform: uppercase;
-        padding-bottom: 1.6em;
-        text-align: center;
+        font-weight: 700;
     }
 
-    &__text {
-        font-size: 3.5vw;
-        letter-spacing: 0.044em;
-        line-height: 1.333333em;
-        text-align: center;
-        font-weight: normal;
+    &__button {
+        text-decoration: none;
+        color: white;
+        font-size: 4vw;
+        padding: 0.7em 0.7em;
+        display: inline-block;
+        margin-top: 20px;
+        letter-spacing: 0.07em;
         text-transform: uppercase;
+        background-color: black;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     @media(min-width: $desktop) {
-        &__content {
-            width: 67vw;
+
+        &__item {
+
+            font-size: 20px;
+            letter-spacing: 1px;
+            line-height: 40px;
         }
 
-        &__name {
-            font-size: 23px;
-            letter-spacing: 1.11px;
-            line-height: 35px;
-        }
-
-        &__text {
-            font-size: 25px;
-            letter-spacing: 1.11px;
-            line-height: 35px;
+        &__button {
+            font-size: 20px;
+            margin-top: 20px;
         }
     }
 
     @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
-        &__content {
-            width: 530px;
+        &__item {
+            font-size: 21px;
+            letter-spacing: 1.05px;
+            line-height: 40px;
+        }
+
+        &__button {
+            font-size: 21px;
+            letter-spacing: 1.05px;
         }
     }
 }

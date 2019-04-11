@@ -4,48 +4,45 @@
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
-    font-size: 20px;
+    width: 60%;
+    max-width: 400px;
+    height: 5vw;
+    max-height: 20px;
+    color: black;
 
-    &__dot {
-        width: 5vw;
-        height: 5vw;
-        max-width: 30px;
-        max-height: 30px;
-        display: inline-block;
-        background-color: black;
-        margin-left: 1vw;
-        margin-right: 1vw;
-        opacity: 0;
-        animation: showHideDot 2.5s ease-in-out infinite;
-
-        &\--one {
-            animation-delay: 0.2s;
-        }
-
-        &\--two {
-            animation-delay: 0.4s;
-        }
-
-        &\--three {
-            animation-delay: 0.6s;
-        }
-    }
-}
-
-@keyframes showHideDot {
-    0% {
-        opacity: 0;
+    &__percent {
+        font-size: 21px;
+        line-height: 21px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: 700;
+        position: absolute;
+        height: 100%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-transform: uppercase;
     }
 
-    50% {
-        opacity: 1;
+
+    &__bar {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        border-radius: 5px;
+        background-color: #42404075;
     }
 
-    60% {
-        opacity: 1;
+    &__progress {
+        height: 100%;
+        width: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: rgb(73, 89, 160);
+        border-radius: 5px;
     }
 
-    100% {
-        opacity: 0;
-    }
 }

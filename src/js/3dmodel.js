@@ -161,9 +161,18 @@ class Viewer {
 
         // Load.
         return new Promise((resolve, reject) => {
+            let manager = new THREE.LoadingManager();
 
+            manager.onProgress = function (item, loaded, total) {
+                let number = Math.round(loaded / total * 100);
 
-            const loader = new THREE.GLTFLoader();
+                progress.style.width = `${number}%`;
+
+                percent.innerHTML = `${number} %`
+
+            }
+
+            const loader = new THREE.GLTFLoader(manager);
             loader.setCrossOrigin('anonymous');
 
             loader.load(url, (gltf) => {
@@ -175,16 +184,7 @@ class Viewer {
 
                 resolve(gltf);
 
-            },
-                function (xhr) {
-                    let number = Math.round(xhr.loaded / xhr.total * 100);
-
-                    progress.style.width = `${number}%`;
-
-                    percent.innerHTML = `${number} %`
-
-                }
-                , reject);
+            });
 
         });
 

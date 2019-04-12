@@ -32,6 +32,7 @@
         margin-left: auto;
         margin-right: auto;
         cursor: pointer;
+        transition: color 0.35s;
 
         &:hover,
         &:focus {

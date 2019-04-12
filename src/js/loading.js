@@ -1,0 +1,5 @@
+function hideLoader() {
+
+}
+
+export { hideLoader };

@@ -292,7 +292,9 @@ html,
     text-transform: uppercase;
     margin-left: auto;
     margin-right: auto;
-    cursor: pointer; }
+    cursor: pointer;
+    -webkit-transition: color 0.35s;
+    transition: color 0.35s; }
     .details__button:hover, .details__button:focus {
       color: black; }
   @media (min-width: 599px) {

@@ -317,16 +317,111 @@ html,
   height: 100%;
   z-index: 1; }
 
-.loader {
+.loading {
   display: block;
   position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  z-index: -1; }
-  .loader .loader--hidden {
+  z-index: -1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-items: center; }
+  .loading__text {
+    font-size: 21px;
+    text-transform: uppercase;
+    color: black; }
+  .loading\--hidden {
     display: none; }
+  .loading__dots {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: end;
+        -ms-flex-align: end;
+            align-items: flex-end; }
+  .loading__dot {
+    margin-right: 2px;
+    margin-bottom: 3px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: black;
+    opacity: 0; }
+    .loading__dot\--one {
+      -webkit-animation: showHideDot1 2.2s ease-in-out infinite;
+              animation: showHideDot1 2.2s ease-in-out infinite; }
+    .loading__dot\--two {
+      -webkit-animation: showHideDot2 2.2s ease-in-out infinite;
+              animation: showHideDot2 2.2s ease-in-out infinite; }
+    .loading__dot\--three {
+      -webkit-animation: showHideDot3 2.2s ease-in-out infinite;
+              animation: showHideDot3 2.2s ease-in-out infinite; }
+
+@-webkit-keyframes showHideDot1 {
+  0% {
+    opacity: 0; }
+  15% {
+    opacity: 0; }
+  20% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@keyframes showHideDot1 {
+  0% {
+    opacity: 0; }
+  15% {
+    opacity: 0; }
+  20% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@-webkit-keyframes showHideDot2 {
+  0% {
+    opacity: 0; }
+  40% {
+    opacity: 0; }
+  45% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@keyframes showHideDot2 {
+  0% {
+    opacity: 0; }
+  40% {
+    opacity: 0; }
+  45% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@-webkit-keyframes showHideDot3 {
+  0% {
+    opacity: 0; }
+  65% {
+    opacity: 0; }
+  70% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@keyframes showHideDot3 {
+  0% {
+    opacity: 0; }
+  65% {
+    opacity: 0; }
+  70% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
 
 
 /*# sourceMappingURL=main.css.map*/

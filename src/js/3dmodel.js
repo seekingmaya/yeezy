@@ -1,4 +1,4 @@
-import { loaderAnimation, hideLoader } from "./loader";
+import { hideLoader } from "./loading";
 
 const THREE = window.THREE = require('three');
 
@@ -166,7 +166,6 @@ class Viewer {
 
             manager.onLoad = function () {
 
-                cancelAnimationFrame(loaderAnimation);
                 hideLoader();
 
             };

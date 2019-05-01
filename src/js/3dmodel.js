@@ -1,4 +1,5 @@
 import { hideLoader } from "./loading";
+import { Color } from "three";
 
 const THREE = window.THREE = require('three');
 
@@ -62,14 +63,13 @@ class Viewer {
             ambientIntensity: 0.3,
             ambientColor: 0xFFFFFF,
             directIntensity: 0.8 * Math.PI,
-            directColor: 0xFFFFFF,
-            bgColor1: '#ffffff',
-            bgColor2: '#353535'
+            directColor: 0xFFFFFF
         };
 
         this.prevTime = 0;
 
         this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0xf9fefd);
 
         const fov = 60;
         this.defaultCamera = new THREE.PerspectiveCamera(fov, el.clientWidth / el.clientHeight, 0.01, 1000);
@@ -82,7 +82,7 @@ class Viewer {
         this.renderer.gammaFactor = 2.2;
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        this.renderer.setClearColor(0xffffff);
+        this.renderer.setClearColor(0xf9fefd);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(el.clientWidth, el.clientHeight);
 
@@ -119,14 +119,9 @@ class Viewer {
 
         requestAnimationFrame(this.animate);
 
-        const dt = (time - this.prevTime) / 1000;
 
         this.controls.update();
-
-        this.mixer && this.mixer.update(dt);
         this.render();
-
-        this.prevTime = time;
 
     }
 
@@ -237,19 +232,9 @@ class Viewer {
         this.controls.update();
 
         this.scene.add(this.content);
+        console.log(this.scene, "scene")
 
         this.scene.add(this.activeCamera);
-
-        this.state.addLights = true;
-        this.content.traverse((node) => {
-            if (node.isLight) {
-                this.state.addLights = true;
-            }
-        });
-
-        this.setClips(clips);
-
-        this.updateLights(center);
 
         this.updateTextureEncoding();
         this.updateDisplay();
@@ -288,33 +273,6 @@ class Viewer {
     }
 
     /**
-     * @param {Array<THREE.AnimationClip} clips
-     */
-    setClips(clips) {
-        if (this.mixer) {
-            this.mixer.stopAllAction();
-            this.mixer.uncacheRoot(this.mixer.getRoot());
-            this.mixer = null;
-        }
-
-        clips.forEach((clip) => {
-            if (clip.validate()) clip.optimize();
-        });
-
-        this.clips = clips;
-        if (!clips.length) return;
-
-        this.mixer = new THREE.AnimationMixer(this.content);
-    }
-
-    playAllClips() {
-        this.clips.forEach((clip) => {
-            this.mixer.clipAction(clip).reset().play();
-            this.state.actionStates[clip.name] = true;
-        });
-    }
-
-    /**
      * @param {string} name
      */
     setCamera(center) {
@@ -350,48 +308,6 @@ class Viewer {
     }
 
     updateLights(center) {
-        // const state = this.state;
-        // const lights = this.lights;
-
-
-        // if (state.addLights && !lights.length) {
-        //     this.addLights();
-        // } else if (!state.addLights && lights.length) {
-        //     this.removeLights();
-        // }
-
-        // this.renderer.toneMappingExposure = state.exposure;
-
-        // if (lights.length === 2) {
-        //     lights[0].intensity = state.ambientIntensity;
-        //     lights[0].color.setHex(state.ambientColor);
-        //     lights[1].intensity = state.directIntensity;
-        //     lights[1].color.setHex(state.directColor);
-        // }
-
-        // var light = new THREE.DirectionalLight(0xffffff, 1, 0.4);
-        // light.position.set(0, this.size / 2, 0);
-        // light.castShadow = true;
-        // light.target.position.set(0, -1.4, 0);
-        // this.scene.add(light);
-        // this.scene.add(light.target);
-        // this.light = light;
-
-
-
-        // light.shadow.mapSize.width = 1024;
-        // light.shadow.mapSize.height = 1024;
-        // light.shadow.camera.near = 0.5;
-        // light.shadow.camera.far = 5;
-        // light.shadow.camera.left = -4;
-        // light.shadow.camera.right = 4;
-        // light.shadow.camera.bottom = -4;
-        // light.shadow.camera.top = 4;
-        // light.radius = 0.0039;
-        // light.bias = 0.0001;
-
-        // var helper = new THREE.CameraHelper(light.shadow.camera);
-        // this.scene.add(helper);
 
     }
 

@@ -11,15 +11,13 @@
         height: calc(var(--vh, 1vh) * 18.6);
         position: relative;
         cursor: pointer;
-        // display: grid;
-        // grid-template-columns: calc(var(--vh, 1vh) * 18.6);
-        // grid-template-rows: 1fr;
 
 
         @for $i from 1 through 5 {
             &[data-img="#{$i}"] .gallery__img\--#{$i} {
                 opacity: 1 !important;
                 z-index: 1 !important;
+                transition: opacity 0.25s 0.25s linear;
             }
         }
     }
@@ -28,9 +26,6 @@
         left: 50%;
         transform: translateX(-50%);
         position: absolute;
-        // grid-area: 1/1/2/2;
-        // // align-self: center;
-        // justify-self: stretch;
         opacity: 0;
         z-index: -1;
         transition: opacity 0.25s linear;

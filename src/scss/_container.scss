@@ -6,6 +6,7 @@
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 16.5vw 1fr 16.5vw;
+    background-color: #f9fefd;
 
     &__nav-top {
         grid-area: 1/1/2/2;
@@ -35,22 +36,6 @@
         }
     }
 
-    // &[data-active="trailer"] {
-    //     background-color: #000;
-
-    //     .container__content {
-    //         grid-area: 2/1/3/2;
-    //     }
-
-    //     .nav__item {
-    //         color: white;
-    //         opacity: 0.3;
-
-    //         &[data-nav="trailer"] {
-    //             opacity: 1;
-    //         }
-    //     }
-    // }
 
     @media(min-width: $desktop) {
         grid-template-rows: 102px 1fr 102px;

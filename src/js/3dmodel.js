@@ -147,6 +147,10 @@ class Viewer {
         coeff = 1.2;
       }
 
+      if (clientWidth > 1600) {
+        coeff = 0.6;
+      }
+
       let cameraZ =
         maxDim / coeff / Math.tan((fov * this.activeCamera.aspect) / 2);
 

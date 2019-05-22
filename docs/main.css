@@ -46,7 +46,7 @@ table {
   border-spacing: 0; }
 
 @font-face {
-  font-family: 'VCR OCD Mono';
+  font-family: "VCR OCD Mono";
   font-style: normal;
   font-weight: normal;
   src: url(fonts/VCR_OSD_MONO_1.001.woff) format("woff"); }
@@ -55,7 +55,7 @@ html,
 body {
   min-height: 100%;
   height: calc(var(--vh, 1vh) * 100);
-  font-family: 'VCR OCD Mono';
+  font-family: "VCR OCD Mono";
   font-weight: bold; }
 
 *,
@@ -152,6 +152,11 @@ html,
         font-size: 21px;
         letter-spacing: 1.97px;
         line-height: 114px; } }
+  @media (min-width: 1921px) {
+    .nav__item {
+      font-size: 30px;
+      letter-spacing: 1.591px;
+      line-height: 114px; } }
   @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
     .nav {
       height: 108px;
@@ -316,6 +321,14 @@ html,
     .details__button {
       font-size: 20px;
       margin-top: 20px; } }
+  @media (min-width: 1921px) {
+    .details__item {
+      font-size: 30px;
+      letter-spacing: 1.3px;
+      line-height: 60px; }
+    .details__button {
+      font-size: 30px;
+      margin-top: 30px; } }
   @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
     .details__item {
       font-size: 21px;
@@ -341,108 +354,14 @@ html,
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  justify-items: center; }
-  .loading__text {
-    text-transform: uppercase;
-    color: black;
-    font-size: 4.8vw;
-    letter-spacing: 0.093em; }
-  .loading\--hidden {
-    display: none; }
-  .loading__dots {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: end;
-        -ms-flex-align: end;
-            align-items: flex-end; }
-  .loading__dot {
-    font-size: 4.8vw;
-    margin-right: 0.093em;
-    margin-bottom: 3px;
-    width: 3px;
-    height: 3px;
-    background-color: black;
-    opacity: 0; }
-    .loading__dot\--one {
-      -webkit-animation: showHideDot1 2.2s ease-in-out infinite;
-              animation: showHideDot1 2.2s ease-in-out infinite; }
-    .loading__dot\--two {
-      -webkit-animation: showHideDot2 2.2s ease-in-out infinite;
-              animation: showHideDot2 2.2s ease-in-out infinite; }
-    .loading__dot\--three {
-      -webkit-animation: showHideDot3 2.2s ease-in-out infinite;
-              animation: showHideDot3 2.2s ease-in-out infinite; }
+  justify-items: center;
+  height: 10vh; }
+  .loading__img {
+    height: 100%; }
   @media (min-width: 599px) {
-    .loading__text {
-      font-size: 21px;
-      letter-spacing: 1.97px; }
-    .loading__dot {
-      font-size: 21px;
-      letter-spacing: 1.97px; } }
-
-@-webkit-keyframes showHideDot1 {
-  0% {
-    opacity: 0; }
-  15% {
-    opacity: 0; }
-  20% {
-    opacity: 1; }
-  100% {
-    opacity: 1; } }
-
-@keyframes showHideDot1 {
-  0% {
-    opacity: 0; }
-  15% {
-    opacity: 0; }
-  20% {
-    opacity: 1; }
-  100% {
-    opacity: 1; } }
-
-@-webkit-keyframes showHideDot2 {
-  0% {
-    opacity: 0; }
-  40% {
-    opacity: 0; }
-  45% {
-    opacity: 1; }
-  100% {
-    opacity: 1; } }
-
-@keyframes showHideDot2 {
-  0% {
-    opacity: 0; }
-  40% {
-    opacity: 0; }
-  45% {
-    opacity: 1; }
-  100% {
-    opacity: 1; } }
-
-@-webkit-keyframes showHideDot3 {
-  0% {
-    opacity: 0; }
-  65% {
-    opacity: 0; }
-  70% {
-    opacity: 1; }
-  100% {
-    opacity: 1; } }
-
-@keyframes showHideDot3 {
-  0% {
-    opacity: 0; }
-  65% {
-    opacity: 0; }
-  70% {
-    opacity: 1; }
-  100% {
-    opacity: 1; } }
+    .loading {
+      height: 20vh;
+      max-height: 500px; } }
 
 
 /*# sourceMappingURL=main.css.map*/

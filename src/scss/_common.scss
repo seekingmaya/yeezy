@@ -1,17 +1,16 @@
 @font-face {
-    font-family: 'VCR OCD Mono';
-    font-style: normal;
-    font-weight: normal;
-    src: url('../fonts/VCR_OSD_MONO_1.001.woff') format('woff');
+  font-family: "VCR OCD Mono";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/VCR_OSD_MONO_1.001.woff") format("woff");
 }
-
 
 html,
 body {
-    min-height: 100%;
-    height: calc(var(--vh, 1vh) * 100);
-    font-family: 'VCR OCD Mono';
-    font-weight: bold;
+  min-height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+  font-family: "VCR OCD Mono";
+  font-weight: bold;
 }
 
 *,
@@ -19,10 +18,12 @@ body,
 html,
 *::after,
 *::before {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 $desktop: 599px;
+$big-desktop: 1921px;
 $mobilePadding: 5.33vw;
 $padding: 54px;
+$background-color: #f9fefd;

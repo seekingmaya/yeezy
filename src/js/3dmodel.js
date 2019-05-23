@@ -62,7 +62,7 @@ class Viewer {
     this.prevTime = 0;
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xf9fefd);
+    this.scene.background = new THREE.Color(0xf6fffd);
 
     const fov = 45;
     this.defaultCamera = new THREE.PerspectiveCamera(
@@ -82,7 +82,7 @@ class Viewer {
     this.renderer.gammaFactor = 2.2;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    this.renderer.setClearColor(0xf9fefd);
+    this.renderer.setClearColor(0xf6fffd);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(el.clientWidth, el.clientHeight);
 

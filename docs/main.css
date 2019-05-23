@@ -76,7 +76,7 @@ html,
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 16.5vw 1fr 16.5vw;
-  background-color: #f9fefd; }
+  background-color: #f6fffd; }
   .container__nav-top {
     grid-area: 1/1/2/2;
     z-index: 2; }

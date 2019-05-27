@@ -360,7 +360,7 @@ html,
     height: 100%; }
   @media (min-width: 599px) {
     .loading {
-      height: 17vh;
+      height: 23vh;
       max-height: 415px; } }
 
 
